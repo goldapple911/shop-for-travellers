@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 
 
 const config = require("./config/key");
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 const {User} = require("./models/user");
 const {auth} = require('./middleware/auth');
@@ -61,6 +61,13 @@ app.post('/api/user/login', (req, res)=>{
         })
     })
 
+})
+
+app.get("/api/user/logout", auth, (req, res)=>{
+    User.findOneAndUpdate({_id: req.user._id}, {token: ""}, (err, doc)=>{
+        if(err) return res.json({success: false, err})
+        return res.status(200).send({success:true})
+    })
 })
 
 
