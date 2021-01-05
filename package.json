@@ -4,25 +4,28 @@
   "description": "",
   "main": "index.js",
   "engine": {
-    "node":"",
-    "npm":""
+    "node": "",
+    "npm": ""
   },
   "scripts": {
     "start": "node server/index.js",
     "backend": "nodemon server/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "frontend": "npm run start --prefix client",
+    "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.8"
   },
   "devDependencies": {
+    "http-proxy-middleware": "^1.0.6",
     "nodemon": "^2.0.6"
   }
 }
