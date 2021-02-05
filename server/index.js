@@ -13,13 +13,15 @@ const port = process.env.PORT || 5000;
 const {User} = require("./models/user");
 const {auth} = require('./middleware/auth');
 
-mongoose.connect(config.mongoURL, { useNewUrlParser: true, }).then(()=> console.log("MongoDB connected.")).catch(err=>console.log(err))
+mongoose.connect(config.mongoURL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify:false }).then(()=> console.log("MongoDB connected.")).catch(err=>console.log(err))
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-
+app.get('/api', (req, res)=>{
+    res.send("Hello world");
+})
 
 app.get('/api/user/auth',auth, (req, res)=>{
     
@@ -27,7 +29,7 @@ app.get('/api/user/auth',auth, (req, res)=>{
 })
 
 
-app.post('/api/users/register', (req, res)=>{
+app.post('/api/user/register', (req, res)=>{
     const user = new User(req.body)
     user.save((err, userData)=>{
         if(err){
@@ -56,7 +58,6 @@ app.post('/api/user/login', (req, res)=>{
         // generate token
         user.generateToken((err, user)=>{
             if(err) return res.status(400).send(err)
-
             return res.cookie("x_auth", user.token).status(200).json({loginSuccess: true})
         })
     })
@@ -64,6 +65,7 @@ app.post('/api/user/login', (req, res)=>{
 })
 
 app.get("/api/user/logout", auth, (req, res)=>{
+    console.log(req.cookies);
     User.findOneAndUpdate({_id: req.user._id}, {token: ""}, (err, doc)=>{
         if(err) return res.json({success: false, err})
         return res.status(200).send({success:true})

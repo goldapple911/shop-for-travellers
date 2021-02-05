@@ -4,7 +4,6 @@ import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import "materialize-css/dist/css/materialize.min.css"
-import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {createStore, applyMiddleware} from 'redux';
 import promiseMiddleware from 'redux-promise';
@@ -15,10 +14,7 @@ const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(Reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
-    
-    <BrowserRouter>
       <App />
-    </BrowserRouter>
   </Provider>
 
   ,
