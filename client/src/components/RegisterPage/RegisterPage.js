@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import { registerUser} from '../../actions/user_action';
-import {withRouter} from 'react-router-dom'
+import "materialize-css/dist/css/materialize.min.css"
+import {withRouter} from 'react-router-dom';
 
 function RegisterPage(props) {
     const dispatch = useDispatch();

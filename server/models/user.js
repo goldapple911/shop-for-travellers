@@ -19,10 +19,6 @@ const userSchema = mongoose.Schema({
         type: String,
         minLength: 5
     },
-    lastname: {
-        type: String,
-        maxLength: 50
-    }, 
     role: {
         type: Number,
         default: 0
@@ -39,7 +35,6 @@ const userSchema = mongoose.Schema({
 
 userSchema.pre('save', function(next){
     var user = this;
-
     if(user.isModified('password')){
         // generate salte
         bcrypt.genSalt(saltRounds, (err, salt)=>{
