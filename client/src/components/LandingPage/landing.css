@@ -1,0 +1,20 @@
+.landing {
+  width: 75%;
+  margin: 3rem auto;
+}
+
+.landing_header {
+  text-align: center;
+}
+
+.post {
+  display: flex;
+  height: 300px;
+  justify-content: center;
+  align-items: center;
+}
+
+.more-btn {
+  display: flex;
+  justify-content: center;
+}

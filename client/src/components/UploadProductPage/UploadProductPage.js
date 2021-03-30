@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import './Upload.css';
 import {Typography, Button, Form, message, Input} from "antd";
 import FileUpload from '../utils/FileUpload';
+import axios from 'axios';
 
 const {Title} = Typography;
 const {TextArea} =Input;
@@ -18,7 +19,7 @@ const continents=[
 ]
 
 
-function UploadProductPage() {
+function UploadProductPage(props) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
@@ -47,6 +48,35 @@ function UploadProductPage() {
         setImages(newImage)
     }
 
+    const onSubmit=(event)=>{
+        event.preventDefault();
+
+        if(!title || !description || !continent || !images){
+            return alert("Please fill all the inputs")
+        }
+
+        const variables= {
+            writer: props.user.userData._id,
+            title,
+            description,
+            price,
+            images,
+            continent,
+        
+        }
+
+        axios.post('/api/product/uploadProduct',variables ).then(response =>{
+            console.log(response.data);
+            if(response.data.success){
+                alert("Product successfully uploaded!")
+                props.history.push('/');
+            }else{
+                alert("Failed to upload the product")
+            }
+        })
+
+    }
+
     return (
         <div className="upload_page">
             <div className="upload_header">
@@ -54,7 +84,7 @@ function UploadProductPage() {
             </div>
   
 
-        <Form onSubmit >
+        <Form onSubmi={onSubmit} >
             <FileUpload refreshFunction ={updateImages}/>
 
             <label>Title</label>
@@ -76,14 +106,14 @@ function UploadProductPage() {
            <br/>
            <label >Continents</label>
 
-           <select onChange={onContinentselect}>
+           <select onChange={onContinentselect}  value={continent}>
                 {continents.map(item =>(
-                      <option key={item.key} value={item.value}>{item.value}</option>
+                      <option key={item.key} value={item.key}>{item.value}</option>
                 ))}
             </select>
             <br/>
             <br/>
-            <Button onClick>
+            <Button onClick={onSubmit}>
                 Submit
             </Button>
         </Form>

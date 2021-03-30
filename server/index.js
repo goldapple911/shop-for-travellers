@@ -24,6 +24,7 @@ mongoose
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use('/uploads', express.static('uploads'));
 app.use('/api/user', require('./routes/userRoute'));
 app.use('/api/product', require('./routes/product'))
 

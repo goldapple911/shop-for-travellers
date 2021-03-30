@@ -1,6 +1,6 @@
 .fileupload {
-  display: "flex";
-  justify-content: "space-between";
+  display: flex;
+  justify-content: space-between;
 }
 
 .dropbox {
@@ -17,4 +17,16 @@
   width: 350px;
   height: 240px;
   overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.selected_img {
+  min-width: 300px;
+  width: 300px;
+  height: 240px;
+}
+
+.image {
+  width: 100%;
+  max-height: 150px;
 }
