@@ -18,3 +18,9 @@
   display: flex;
   justify-content: center;
 }
+
+.search {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem;
+}
