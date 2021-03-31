@@ -59,7 +59,7 @@ function LandingPage(props) {
         <Card
           key={index}
           hoverable={true}
-          cover={<Imageslide images={item.images} />}
+          cover={<a href={`product/${item._id}`} ><Imageslide images={item.images} /></a>}
         >
           <Meta title={item.title} description={"$" + item.price} />
         </Card>

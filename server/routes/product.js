@@ -94,5 +94,23 @@ var upload = multer({ storage: storage }).single("file")
 
     })
 
+    router.get("/by_id", (req, res) => {
+        let id = req.query.id;
+        let type= req.query.type;
+
+   
+        if(type ==="array"){
+
+        }
+
+        Product.find({_id:{$in:id}}).populate('writer').exec((err, product)=>{
+            if(err) return res.status(400).json({success: false, err});
+            return res.status(200).json({success: true, product});
+        })
+
+    });
+
+
+
 
 module.exports = router;

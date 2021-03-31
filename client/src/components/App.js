@@ -8,6 +8,7 @@ import Auth from '../hoc/auth'
 import NavBar from './navbar/NavBar';
 import Footer from './footer/Footer';
 import UploadProductPage from './UploadProductPage/UploadProductPage';
+import DetailProductPage from './detailProductPage/DetailProductPage';
  
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route exact path="/login" component={Auth(LoginPage, false )} /> 
               <Route export path ="/register" component={Auth(RegisterPage, false )} />
               <Route export path ="/product/upload" component={Auth(UploadProductPage, true )} />
+              <Route export path ="/product/:productId" component={Auth(DetailProductPage, null )} />
             </Switch>
         </div>
         <Footer />
