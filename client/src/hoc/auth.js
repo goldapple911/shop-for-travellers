@@ -27,9 +27,10 @@ export default function(SpecificComponent, option, adminRoute = null){
                     if(adminRoute && !response.payload.isAuth){
                         props.history.push("/")
                     }
-                    if(!option){
-                        props.history.push("/")
-
+                    else {
+                        if (option === false) {
+                            props.history.push('/')
+                        }
                     }
                 }
             } )

@@ -1,10 +1,11 @@
 import React from 'react';
-import { Menu } from 'antd';
+import { Menu , Badge} from 'antd';
 import axios from 'axios';
 import { USER_SERVER } from '../../../Config';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import {UploadOutlined} from '@ant-design/icons';
+import {ShoppingCartOutlined} from '@ant-design/icons';
 
 function RightMenu(props) {
   const user = useSelector(state => state.user)
@@ -33,8 +34,12 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode}>
-        <Menu.Item key="upload">
-          <a href="/product/upload">Upload  <UploadOutlined style={{fontSize: "1rem" }} href="/product/upload">Upload</UploadOutlined></a>
+         <Menu.Item key="upload">
+          <a href="/product/upload">Upload<UploadOutlined style={{fontSize:"1.2rem", fontWeight: "bold"}} href="/product/upload">Upload</UploadOutlined></a>
+        </Menu.Item>
+        <Menu.Item key="cart">
+       
+          <a href="/user/cart">Cart   <Badge count={1} ><ShoppingCartOutlined style={{fontSize: "1.2rem" , fontWeight: "bold", marginBottom: 4}} href="/product/upload">Cart</ShoppingCartOutlined>          </Badge></a>
 
         </Menu.Item>
         <Menu.Item key="logout">
