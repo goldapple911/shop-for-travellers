@@ -10,6 +10,7 @@ import {ShoppingCartOutlined} from '@ant-design/icons';
 function RightMenu(props) {
   const user = useSelector(state => state.user)
   console.log(user);
+
   const logoutHandler = () => {
     axios.get(`${USER_SERVER}/logout`).then(response => {
       if (response.status === 200) {
@@ -39,7 +40,7 @@ function RightMenu(props) {
         </Menu.Item>
         <Menu.Item key="cart">
        
-          <a href="/user/cart">Cart   <Badge count={1} ><ShoppingCartOutlined style={{fontSize: "1.2rem" , fontWeight: "bold", marginBottom: 4}} href="/product/upload">Cart</ShoppingCartOutlined>          </Badge></a>
+          <a href="/user/cart">Cart<Badge count={1} ><ShoppingCartOutlined style={{fontSize: "1.2rem" , fontWeight: "bold", marginBottom: 4}} href="/user/cart">Cart</ShoppingCartOutlined>          </Badge></a>
 
         </Menu.Item>
         <Menu.Item key="logout">

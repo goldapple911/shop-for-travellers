@@ -52,3 +52,5 @@ export function addToCart(productId){
         payload: request
     }
 }
+
+

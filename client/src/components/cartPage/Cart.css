@@ -1,0 +1,10 @@
+.cart_box {
+  width: 85%;
+  margin: 3rem auto;
+}
+.empty {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

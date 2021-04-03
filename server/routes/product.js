@@ -100,7 +100,8 @@ var upload = multer({ storage: storage }).single("file")
 
    
         if(type ==="array"){
-
+            let ids = req.query.id.split(',');
+            id=[...ids];
         }
 
         Product.find({_id:{$in:id}}).populate('writer').exec((err, product)=>{
