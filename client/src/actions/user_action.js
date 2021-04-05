@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {LOGIN_USER, REGISTER_USER,AUTH_USER,LOGOUT_USER,ADD_TO_CART} from './types';
+import {LOGIN_USER, REGISTER_USER,AUTH_USER,LOGOUT_USER,ADD_TO_CART,REMOVE_CART_ITEM} from './types';
 
 import { USER_SERVER } from '../Config';
 
@@ -54,3 +54,24 @@ export function addToCart(productId){
 }
 
 
+
+export function removeCartItem(id) {
+    const request = axios.get(`${USER_SERVER}/removeCartItem?id=${id}`)
+      .then(response => {
+          console.log(response.data);
+        response.data.cart.forEach(item =>{
+            response.data.cartDetail.forEach((k,i)=>{
+                if(item.id === k._id){
+                    response.data.cartDetail[i].quantity = item.quantity;
+                }
+            })
+        })
+
+        return response.data;
+      });
+    return {
+      type: REMOVE_CART_ITEM,
+      payload: request,
+    };
+  }
+  

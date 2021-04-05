@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require("../models/user");
+const { Product } = require("../models/product");
 
 const { auth } = require("../middleware/auth");
 
@@ -97,5 +98,35 @@ router.post("/addToCart", auth, (req, res) => {
     })
 });
 
+router.get("/removeCartItem", auth, (req,res)=>{
+    const productId = req.query.id;
+
+
+    User.findOneAndUpdate({_id: req.user._id}, {"$pull" : {"cart": {id: productId}}}, {new: true} , (err, userInfo)=>{
+        let cart = userInfo.cart;
+
+        let array = cart.map(item =>{
+            return item.id
+        })
+        Product.find({_id: {$in: array}}).populate('writer').exec((err, cartDetail)=>{
+            return res.status(200).json({cartDetail,cart })
+        })
+
+    })
+})
+
+router.get('/userCartInfo', auth, (req, res)=>{
+    User.findOne({_id: req.user._id}, (err, userInfo)=>{
+        let cart = userInfo.cart;
+        let array = cart.map(item =>{
+            return item.id
+        })
+        Product.find({_id: {$in: array}}).populate('writer').exec((err, cartDetail)=>{
+            if(err) return res.status(400).json({success: false, err})
+            return res.status(200).json({success: true, cartDetail,cart })
+        })
+
+})
+})
 
 module.exports = router;
