@@ -1,10 +1,16 @@
 import React from 'react'
 
 function UserCartBlock(props) {
+    let url="";
+    if(process.env.NODE_ENV ==="production"){
+        url = "https://travel-shop.herokuapp.com/"
+    }else{
+        url="http://localhost:5000/"
+    }
     const renderCartImage=(images)=>{
         if(images.length >0){
             let image = images[0];
-            return `http://localhost:5000/${image}`
+            return `${url}${image}`
         }
     }
     const renderItems=()=>(
