@@ -11,7 +11,7 @@ const { User } = require("./models/user");
 const { auth } = require("./middleware/auth");
 
 
-mongoose
+const connect = mongoose
   .connect(config.mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
