@@ -48,6 +48,7 @@ var upload = multer({ storage: storage }).single("file")
     });
 
     router.post("/getProducts", (req, res)=>{
+        console.log(req.body);
         let order = req.body.order ? req.body.order : "desc";
         let sortBy = req.body.sortBy? req.body.sortBy : "_id";
         let limit = req.body.limit ? parseInt(req.body.limit) : 100;
