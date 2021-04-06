@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-
+const path = require('path');
 const config = require("./config/key");
 const port = process.env.PORT || 5000;
 
