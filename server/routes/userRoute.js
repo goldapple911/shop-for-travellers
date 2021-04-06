@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { User } = require("../models/user");
 const { Product } = require("../models/product");
+const { Payment } = require("../models/payment");
 
 const { auth } = require("../middleware/auth");
+const async = require('async');
 
 //=================================
 //             User
@@ -127,6 +129,75 @@ router.get('/userCartInfo', auth, (req, res)=>{
         })
 
 })
+})
+
+router.post('/successBuy', auth, (req, res)=>{
+    let history =[];
+    let transactionData={};
+    
+    // put brief payment info inside user collection
+    req.body.cartDetail.forEach(item =>{
+        history.push({
+            dateOfPurchase: Date.now(),
+            name: item.title,
+            id:item._id,
+            price: item.price,
+            quantity: item.quantity,
+            paymentId: req.body.paymentData.paymentID
+        })
+    })
+
+
+    // put payment info that comes from paypal into payment collection
+    transactionData.user={
+        id: req.user._id,
+        name: req.user.name,
+        email: req.user.email
+    }
+    transactionData.data=req.body.paymentData;
+    transactionData.product=history;
+
+    User.findOneAndUpdate({_id: req.user._id}, {$push: {history: history}, $set: {cart: []}}, {new: true}, (err, user)=>{
+        if(err) return res.status(400).json({success: false, err})
+
+        const pay = new Payment(transactionData);
+        pay.save((err, doc)=>{
+            if(err) return res.status(400).json({success: false, err})
+              // increase the amount of number for the sold info
+
+              let products =[];
+              doc.product.forEach(item=>{
+                  products.push({id: item.id, quantity: item.quantity})
+              })
+
+              async.eachSeries(products, (item, callback)=>{
+                  Product.update(
+                  {_id: item.id},
+                  {
+                      $inc: {
+                          sold: item.quantity
+                      }
+                  },
+                  {new: false},
+                  callback
+                  )
+              }, (err)=>{
+                if(err) return res.status(400).json({success: false, err})
+                return res.status(200).json({success: true, cart: user.cart, cartDetail:[]})
+              })
+    })
+
+
+})
+})
+
+router.get('/getHistory', auth, (req, res)=>{
+    User.findOne({_id: req.user._id}, (err, user)=>{
+        let history = user.history;
+        if(err)return res.status(400).json({success: false, err})
+        return res.status(200).json({success: true, history})
+
+    })
 })
 
 module.exports = router;

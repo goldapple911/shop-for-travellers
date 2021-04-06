@@ -1,11 +1,12 @@
 import React,{useEffect, useState} from 'react'
 import{ useDispatch } from 'react-redux'
 import {getCartItems} from '../../actions/product_action';
-import {removeCartItem} from '../../actions/user_action';
+import {removeCartItem, onSuccessBuy} from '../../actions/user_action';
 import UserCartBlock  from './sections/UserCartBlock';
 import {Result, Empty} from 'antd'
 import'./Cart.css'
 import axios from 'axios';
+import Paypal from '../utils/Paypal'
 
 
 
@@ -61,6 +62,29 @@ function CartPage(props) {
         })
     }
 
+    const transactionSuccess=(data)=>{
+        let variables = {
+            cartDetail: props.user.cartDetail, paymentData: data 
+        }
+        axios.post('/api/user/successBuy', variables).then(response =>{
+            if(response.data.success){
+                setShowSuccess(true)
+                setShowTotal(false)
+                dispatch(onSuccessBuy({cart: response.data.cart, cartDetail: response.data.cartDetail}))
+            }else{
+                alert('Failed to buy it')
+            }
+        })
+    }
+
+    const transactionError=()=>{
+        console.log('Paypal error');
+    }
+
+    const transactionCanceled=()=>{
+        console.log('transaction canceled');
+    }
+
     return (
         <div className="cart_box">
             <h2>My Cart</h2>
@@ -87,6 +111,10 @@ function CartPage(props) {
         </div>
             }
 
+            {showTotal &&
+            <Paypal toPay={total} onSuccess={transactionSuccess} transactionError={transactionError} transactionCanceled={transactionCanceled} />
+            
+            }
 
         </div>
     )

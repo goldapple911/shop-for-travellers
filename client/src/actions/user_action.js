@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {LOGIN_USER, REGISTER_USER,AUTH_USER,LOGOUT_USER,ADD_TO_CART,REMOVE_CART_ITEM} from './types';
+import {LOGIN_USER, REGISTER_USER,AUTH_USER,LOGOUT_USER,ADD_TO_CART,REMOVE_CART_ITEM,ON_SUCCESS_BUY} from './types';
 
 import { USER_SERVER } from '../Config';
 
@@ -75,3 +75,9 @@ export function removeCartItem(id) {
     };
   }
   
+export function onSuccessBuy(data){
+    return {
+        type: ON_SUCCESS_BUY,
+        payload: data
+    }
+}

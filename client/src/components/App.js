@@ -10,6 +10,7 @@ import Footer from './footer/Footer';
 import UploadProductPage from './UploadProductPage/UploadProductPage';
 import DetailProductPage from './detailProductPage/DetailProductPage';
 import CartPage from './cartPage/CartPage';
+import HistoryPage from './historyPage/HistoryPage';
  
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route export path ="/product/upload" component={Auth(UploadProductPage, true )} />
               <Route export path ="/product/:productId" component={Auth(DetailProductPage, null )} />
               <Route export path ="/user/cart" component={Auth(CartPage, true )} />
+              <Route export path ="/user/history" component={Auth(HistoryPage, true )} />
             </Switch>
         </div>
         <Footer />
